@@ -7,6 +7,7 @@ final class AsciiEdit: ParsableCommand {
     }
 
     static let configuration = CommandConfiguration(
+        commandName: "asciiedit",
         abstract: "A utility for editing `cast` files produced with asciinema",
         version: "0.1.0"
     )

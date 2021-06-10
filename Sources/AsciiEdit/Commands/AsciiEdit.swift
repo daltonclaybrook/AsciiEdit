@@ -3,7 +3,7 @@ import PathKit
 
 final class AsciiEdit: ParsableCommand {
     enum Error: Swift.Error {
-        case inputFileDoesNotExist
+        case inputFileDoesNotExist(String)
     }
 
     static let configuration = CommandConfiguration(
@@ -29,7 +29,7 @@ final class AsciiEdit: ParsableCommand {
     func run() throws {
         let inputPath = Path(file)
         guard inputPath.exists else {
-            throw Error.inputFileDoesNotExist
+            throw Error.inputFileDoesNotExist(file)
         }
 
         var castFile = try CastFile(fileText: inputPath.read())

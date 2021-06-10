@@ -59,7 +59,11 @@ extension CastFile {
 
         let decoder = JSONDecoder()
         self.header = try decoder.decode(Header.self, from: headerData)
-        self.entries = try lines.map { entryLine -> Entry in
+        self.entries = try lines.compactMap { entryLine -> Entry? in
+            guard !entryLine.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                // Return if this line is empty
+                return nil
+            }
             guard let entryData = entryLine.data(using: .utf8) else {
                 throw Error.invalidEntry(entryLine)
             }

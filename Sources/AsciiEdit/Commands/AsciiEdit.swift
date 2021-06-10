@@ -35,8 +35,12 @@ final class AsciiEdit: ParsableCommand {
         var castFile = try CastFile(fileText: inputPath.read())
         CastFileUtility.updateSize(of: &castFile, width: width, height: height)
         CastFileUtility.constrainMaxDuration(of: &castFile, maxDuration: maxDuration)
+
         let outputText = try castFile.generateFileText()
         let outputFilePath = output.map { Path($0) } ?? inputPath
+        if outputFilePath.exists {
+            try outputFilePath.delete()
+        }
         try outputFilePath.write(outputText)
 
         print("✅  Done!")
